@@ -1,0 +1,38 @@
+.container {
+	margin: 0 auto;
+	float: none;
+}
+
+#message {
+	color: blue;
+	text-decoration: underline;
+}
+
+.mode {
+	/*float: none;*/
+	margin: 10px;
+	color: black;
+	border-radius: 25px;
+	display: block;
+	text-align: center;
+}
+
+#mode_stop {
+	background-color:#ff1111;
+}
+
+#mode_lightbright {
+	background-color:grey;
+}
+
+#mode_multicolor {
+	background-color:lightgreen;
+}
+
+#mode_draw {
+	background-color:lightblue;
+}
+
+body {
+	background-color: #FDECEC;
+}

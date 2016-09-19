@@ -1,0 +1,30 @@
+html
+	head
+		title Light Brite
+		include common/head.jade
+		link(rel='stylesheet' href='/css/home.css')
+	body(style='background-color: #FDECEC')
+		include common/nav.jade	
+		.container
+			h3 Please select a mode
+			h5#message #{message}
+			.row
+				.col-lg-3.col-md-3.col-sm-1.col-xs-1
+				a#mode_stop.mode.col-xs-10.col-sm-10.col-md-6.col-lg-6(href='/mode/stop')
+					h1 Stop
+					h4 Turn Light Brite black
+			.row
+				.col-lg-3.col-md-3.col-sm-1.col-xs-1
+				a#mode_lightbright.mode.col-xs-10.col-sm-10.col-md-6.col-lg-6(href='/mode/lightbrite')
+					h1 Light Brite Mode
+					h4 Start Light Brite mode
+			.row
+				.col-lg-3.col-md-3.col-sm-1.col-xs-1
+				a#mode_multicolor.mode.col-xs-10.col-sm-10.col-md-6.col-lg-6(href='/mode/twinkle')
+					h1 Twinkle Mode
+					h4 Loops through different colors
+			.row
+				.col-lg-3.col-md-3.col-sm-1.col-xs-1
+				a#mode_draw.mode.col-xs-10.col-sm-10.col-md-6.col-lg-6(href='/mode/draw')
+					h1 Drawing Mode
+					h4 Listens to the drawing coming from a file
