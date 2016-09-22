@@ -28,48 +28,70 @@ app.get('/mode/:mode', function(req, res) {
 
 	switch(mode) {
 		case 'stop':
-			exec('kill -9 `pidof python` && /root/mode/black.py', (error, stdout, stderr) => {
-				if (error) {
-					console.error(`exec error: ${error}`);
-					return;
-				}
-				console.log(`stdout: ${stdout}`);
-				console.log(`stderr: ${stderr}`);
+			exec('pidof python', function(err, out, err) {
+				var pid = out;
+				console.log('pid = ', pid);
+				exec('kill =9 ' + pid, function(e, o, er) {
+					exec('/root/mode/black.py', function(error, stdout, stderr) {
+						if (error) {
+							console.error('exec error: ', error);
+							return;
+						}
+						console.log('stdout:', stdout);
+						console.log('stderr:', stderr);
+					});
+				});
 			});
 
 			break;
 		case 'lightbrite':
-			exec('kill -9 `pidof python` && /root/mode/light-brite.py', (error, stdout, stderr) => {
-				if (error) {
-					console.error(`exec error: ${error}`);
-					return;
-				}
-				console.log(`stdout: ${stdout}`);
-				console.log(`stderr: ${stderr}`);
+			exec('pidof python', function(err, out, err) {
+				var pid = out;
+				console.log('pid = ', pid);
+				exec('kill =9 ' + pid, function(e, o, er) {
+					exec('/root/mode/light-brite.py', function(error, stdout, stderr) {
+						if (error) {
+							console.error('exec error: ', error);
+							return;
+						}
+						console.log('stdout:', stdout);
+						console.log('stderr:', stderr);
+					});
+				});
 			});
 
 			break;
 		case 'twinkle':
-			exec('kill -9 `pidof python` && /root/mode/twinkle.py', (error, stdout, stderr) => {
-				if (error) {
-					console.error(`exec error: ${error}`);
-					return;
-				}
-				console.log(`stdout: ${stdout}`);
-				console.log(`stderr: ${stderr}`);
+			exec('pidof python', function(err, out, err) {
+				var pid = out;
+				console.log('pid = ', pid);
+				exec('kill =9 ' + pid, function(e, o, er) {
+					exec('/root/mode/twinkle.py', function(error, stdout, stderr) {
+						if (error) {
+							console.error('exec error: ', error);
+							return;
+						}
+						console.log('stdout:', stdout);
+						console.log('stderr:', stderr);
+					});
+				});
 			});
-
 			break;
 		case 'draw':
-			exec('kill -9 `pidof python` && /root/mode/draw.py', (error, stdout, stderr) => {
-				if (error) {
-					console.error(`exec error: ${error}`);
-					return;
-				}
-				console.log(`stdout: ${stdout}`);
-				console.log(`stderr: ${stderr}`);
+			exec('pidof python', function(err, out, err) {
+				var pid = out;
+				console.log('pid = ', pid);
+				exec('kill =9 ' + pid, function(e, o, er) {
+					exec('/root/mode/draw.py', function(error, stdout, stderr) {
+						if (error) {
+							console.error('exec error: ', error);
+							return;
+						}
+						console.log('stdout:', stdout);
+						console.log('stderr:', stderr);
+					});
+				});
 			});
-
 			break;
 	}
 
@@ -78,6 +100,6 @@ app.get('/mode/:mode', function(req, res) {
 
 })
 
-app.listen(3000, function () {
+app.listen(80, function () {
   console.log('Example app listening on port 3000!');
 });
