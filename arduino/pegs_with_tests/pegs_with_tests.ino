@@ -58,7 +58,8 @@ int delay_count[NUM_PEGS] = {0};
 PololuLedStrip<PIN_NUMBER_LED> ledStrip;
 rgb_color colors[NUM_PEGS];
 rgb_color temp_colors[NUM_PEGS];
-int offset[NUM_PEGS] = {0};
+int offset_normalMode[NUM_PEGS] = {0};
+int offset_selfTest[NUM_PEGS] = {0};
 
 rgb_color white, red, green, blue, black, magenta, cyan, yellow;
 
@@ -239,17 +240,17 @@ void normalMode() {
         prev_sensor_input2[i] = sensor_input2[i];
         prev_sensor_input1[i] = sensor_input1[i];
         change = true;
-          offset[i] = (offset[i] - 1);
-          if(offset[i] >= COLORS_COUNT) {
-            offset[i] = 0;
-          } else if(offset[i] < 0) {
-            offset[i] = COLORS_COUNT - 1;            
+          offset_normalMode[i] = (offset_normalMode[i] - 1);
+          if(offset_normalMode[i] >= COLORS_COUNT) {
+            offset_normalMode[i] = 0;
+          } else if(offset_normalMode[i] < 0) {
+            offset_normalMode[i] = COLORS_COUNT - 1;            
           }
       } 
       if(debug) Serial.print(i);
       if(debug) Serial.println(" - PEG IN! ");
-      colors[i] = *roll_colors[offset[i]]; 
-      current_color = color_names[offset[i]];   
+      colors[i] = *roll_colors[offset_normalMode[i]]; 
+      current_color = color_names[offset_normalMode[i]];   
     } else {
       if(debug) Serial.print(i);
       if(debug) Serial.println(" - PEG OUT! ");
@@ -275,12 +276,12 @@ void normalMode() {
 
 void selfTest() {
   for(int i = 0; i < NUM_PEGS; i++) {
-      offset[i] = (offset[i] + 1) % COLORS_COUNT;
+      offset_selfTest[i] = (offset_selfTest[i] + 1) % COLORS_COUNT;
 //      colors[i] = *roll_colors[(offset[i] + i) % COLORS_COUNT];    
   }
 
   for(int i = 0; i < NUM_PEGS; i++) {
-    colors[i] = *roll_colors[offset[0]];    
+    colors[i] = *roll_colors[offset_selfTest[0]];    
   }
 
   ledStrip.write(colors, NUM_PEGS);  
