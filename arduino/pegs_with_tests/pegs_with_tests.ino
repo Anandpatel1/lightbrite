@@ -1,6 +1,4 @@
 #include<PololuLedStrip.h>
-#include "MsTimer2.h"
-//#include "TimerOne.h"
 
 #define MY_ADDRESS 10
 
@@ -37,32 +35,6 @@
 #define PIN_NUMBER_LED D3
 
 #define DELAY_COUNT 5
-/*
-#define NUM_PEGS 7
-// List of Sensor 1 pins of all pegs
-int sensor_pin1[NUM_PEGS] = {D2, D5, D8, D11, A0, A3, A6};
-// List of Sensor 2 pins of all pegs
-int sensor_pin2[NUM_PEGS] = {D3, D6, D9, D12, A1, A4, A7};
-// List of Micro switch pins of all pegs
-int on_off_pin[NUM_PEGS] = {RX0, D4, D7, D10, D13, A2, A5};
-*/
-
-/*#define NUM_PEGS 1
-// List of Sensor 1 pins of all pegs
-int sensor_pin1[NUM_PEGS] = {D6};
-// List of Sensor 2 pins of all pegs
-int sensor_pin2[NUM_PEGS] = {D5};
-// List of Micro switch pins of all pegs
-int on_off_pin[NUM_PEGS] = {D4};
-*/
-//#define NUM_PEGS 2
-//// List of Sensor 1 pins of all pegs
-//int sensor_pin1[NUM_PEGS] = {D6, A5};
-//// List of Sensor 2 pins of all pegs
-//int sensor_pin2[NUM_PEGS] = {D5, A6};
-//// List of Micro switch pins of all pegs
-//int on_off_pin[NUM_PEGS] = {D4, A7};
-
 
 #define NUM_PEGS 6
 // List of Sensor 1 pins of all pegs
@@ -92,7 +64,6 @@ rgb_color white, red, green, blue, black, magenta, cyan, yellow;
 
 #define COLORS_COUNT 7
 rgb_color* roll_colors[COLORS_COUNT] = {&cyan, &yellow, &magenta, &green, &blue, &red, &white};
-//rgb_color* roll_colors[COLORS_COUNT] = {&white, &red, &green, &blue, &magenta, &cyan, &yellow};
 char* color_names[COLORS_COUNT] = {"white", "red", "green", "blue", "magenta", "cyan", "yellow"};
 
 char* current_color;
@@ -188,11 +159,6 @@ void setup_colors() {
 }
 
 void setup_gpio() {
-//  for(int i = 0; i < NUM_PEGS; i++) {
-//    digitalWrite(sensor_pin1[i], HIGH);
-//    digitalWrite(sensor_pin2[i], HIGH);
-//    digitalWrite(on_off_pin[i], HIGH);
-//  }  
   for(int i = 0; i < NUM_PEGS; i++) {
     pinMode(sensor_pin1[i], INPUT);
     pinMode(sensor_pin2[i], INPUT);
@@ -211,25 +177,12 @@ void setup_led() {
   current_color = "blue";
 }
 
-void setup_timer() {
-//  Timer1.initialize(1000000);  
-//  Timer1.attachInterrupt( clear_serial );
-//  Timer1.stop();
-//        setup_timer();
-  MsTimer2::set(500, clear_serial);
-}
 void setup() {
-//  if(debug) 
-//  else 
-//    Serial.end();
-
   setup_colors();
   setup_gpio();
   setup_led();
-
-    Serial.begin(BAUD);
-
-//  UCSR0B = 0;
+  
+  Serial.begin(BAUD);
 }
 
 void normalMode() {
@@ -314,7 +267,6 @@ void normalMode() {
   }
 
   if(change) {
-//    delay(300);
     delay(100);
   } else {
     delay(100);
@@ -322,14 +274,6 @@ void normalMode() {
 }
 
 void selfTest() {
-/*    for(int i = 0; i < NUM_PEGS; i++) {
-      colors[i] = green;
-    }
-    
-    ledStrip.write(colors, NUM_PEGS);  
-
-    return;
-*/
   for(int i = 0; i < NUM_PEGS; i++) {
       offset[i] = (offset[i] + 1) % COLORS_COUNT;
 //      colors[i] = *roll_colors[(offset[i] + i) % COLORS_COUNT];    
@@ -345,16 +289,6 @@ void selfTest() {
 }
 
 void setColor() {
-/*
-    for(int i = 0; i < NUM_PEGS; i++) {
-      colors[i] = blue;
-    }
-    
-    ledStrip.write(colors, NUM_PEGS);  
-
-    return;
-*/
-  
   ledStrip.write(colors, NUM_PEGS);  
   delay(100);
 }
@@ -366,10 +300,6 @@ int loop_count = 0;
 
 void loop() {
     if(runMode == NOTHING) {
-/*     for(int i = 0; i < NUM_PEGS; i++) {
-        colors[i] = red;
-      }
-*/
       // Do nothing
       if(debug) Serial.println("********** MODE: NOTHING *************");
       normalMode();
@@ -378,9 +308,6 @@ void loop() {
         clear_serial();
       }
     } else if(runMode == SELF_TEST) {
-     for(int i = 0; i < NUM_PEGS; i++) {
-//        colors[i] = green;
-      }
       if(debug) Serial.println("********** MODE: SELF TEST *************");
       selfTest();
       if(loop_count > SELF_TEST_MODE_RESET_TIME) {
@@ -388,9 +315,6 @@ void loop() {
         clear_serial();
       }
     } else if(runMode == SET_COLOR) {
-     for(int i = 0; i < NUM_PEGS; i++) {
-//        colors[i] = white;
-      }
       if(debug) Serial.println("********** MODE: SET COLOR *************");
       setColor();      
       if(loop_count > SET_COLOR_MODE_RESET_TIME) {
@@ -398,16 +322,10 @@ void loop() {
         clear_serial();
       }
     } else if(runMode == GET_COLOR) {
-     for(int i = 0; i < NUM_PEGS; i++) {
-//        colors[i] = magenta;
-      }
       // Do nothing      
       if(debug) Serial.println("********** MODE: GET COLOR *************");
         loop_count = 0;
     } else if(runMode == NORMAL_MODE) {
-     for(int i = 0; i < NUM_PEGS; i++) {
-//        colors[i] = cyan;
-      }
       if(debug) Serial.println("********** MODE: NORMAL MODE *************");
       normalMode();
       if(loop_count > NORMAL_MODE_RESET_TIME) {
@@ -415,41 +333,20 @@ void loop() {
         clear_serial();
       }
     } 
-//    colors[runMode] = black;
-//    ledStrip.write(colors, NUM_PEGS);
     loop_count++;
 }
 
 
 void serialEvent() {
-
-/*  for(int i = 0; i < NUM_PEGS; i++) {
-    colors[i] = red;
-  }
-  ledStrip.write(colors, NUM_PEGS);  
-  current_color = "red";
-*/
   while (Serial.available()) {
     // get the new byte:
     unsigned char inChar = (unsigned char)Serial.read();
-    if(recvdOffset == 0) {
-//      Timer1.attachInterrupt( clear_serial );
-//      Timer1.restart();
-//      Timer1.start();
-//      MsTimer2::start();      
-//      reset_timer();
-    }
     // add it to the inputString:
     recvdMsg[recvdOffset] = inChar;
     recvdOffset++;
 
-
     if(recvdOffset > COMDATA) {
       if(recvdOffset >= LENGTH_OF_THIS_MSG[recvdMsg[COMDATA]]) {
-//        Timer1.detachInterrupt ();
-//        Timer1.stop();
-//       MsTimer2::stop();
-//       cancel_timer();
        recvdOffset = 0;
        processMsg();
        loop_count = 0;
@@ -500,11 +397,6 @@ void createMsg() {
 }
 
 void txMsg(unsigned char* msg) {
-//    for(int i = 0; i < NUM_PEGS; i++) {
-//      colors[i] = white;
-//    }
-//    
-//    ledStrip.write(colors, NUM_PEGS);   
   delay(100);
   if(msg[COMACK] == 'N') {
     for(int i = 0; i < TX_LENGTH_OF_THIS_MSG[NOTHING]; i++) {
@@ -524,64 +416,23 @@ void processMsg() {
     return;
   }
   if(!checkHash()) {    // BRING ME BACK
-
-    createNack();
-
-//    return txMsg(recvdMsg);
-    
+    createNack();    
   } else if(recvdMsg[COMACK] != 'C') {
-//    for(int i = 0; i < NUM_PEGS; i++) {
-//      colors[i] = white;
-//    }
-//    
-//    ledStrip.write(colors, NUM_PEGS);   
     return;
   } else {
-//    for(int i = 0; i < NUM_PEGS; i++) {
-//      colors[i] = yellow;
-//    }
-//    
-//    ledStrip.write(colors, NUM_PEGS);  
-
     if(runMode != GET_COLOR) {
       prev_runMode = runMode;
     }
     runMode = recvdMsg[COMDATA];
-//    colors[runMode] = white;
-//    ledStrip.write(colors, NUM_PEGS);   
     createMsg();
-//    Serial.println(runMode+48);
     if(runMode == SET_COLOR) {
       for(int i = 0; i < NUM_PEGS; i++) {
           colors[i].red = recvdMsg[R1 + i*3];
           colors[i].green = recvdMsg[G1 + i*3];
           colors[i].blue = recvdMsg[B1 + i*3];
       }
-/*    ledStrip.write(colors, NUM_PEGS);   
-  */    
-/*        colors[0].red = recvdMsg[R1];
-        colors[0].green = recvdMsg[G1];
-        colors[0].blue = recvdMsg[B1];
-        colors[1].red = recvdMsg[R2];
-        colors[1].green = recvdMsg[G2];
-        colors[1].blue = recvdMsg[B2];
-        colors[2].red = recvdMsg[R3];
-        colors[2].green = recvdMsg[G3];
-        colors[2].blue = recvdMsg[B3];
-        colors[3].red = recvdMsg[R4];
-        colors[3].green = recvdMsg[G4];
-        colors[3].blue = recvdMsg[B4];
-        colors[4].red = recvdMsg[R5];
-        colors[4].green = recvdMsg[G5];
-        colors[4].blue = recvdMsg[B5];
-        colors[5].red = recvdMsg[R6];
-        colors[5].green = recvdMsg[G6];
-        colors[5].blue = recvdMsg[B6];
-        */
     } else if(runMode == GET_COLOR) {
-      //Serial.println("inside Get color");
       for(int i = 0; i < NUM_PEGS; i++) {
-        //Serial.println("inside for");
         sendMsg[R1 + i*3] = colors[i].red;
         sendMsg[G1 + i*3] = colors[i].green;
         sendMsg[B1 + i*3] = colors[i].blue;
@@ -589,7 +440,6 @@ void processMsg() {
     }
     sendMsg[HASH] = calcHash(sendMsg);
   }
-  //delay(100);
   if(recvdMsg[ADDRESS] != ADDRESS_ALL) {
     txMsg(sendMsg);   // BRING ME BACK
   }
@@ -598,79 +448,7 @@ void processMsg() {
   }
 }
 
-
-
-
-/************************************
- * 
- * 
- * TIMERS
- * 
- * 
- * *********************************/
-
-
-unsigned long compare_count = 2*5; //seconds
-unsigned long step_count = 0;
-
-
-/*unsigned long compare_count = 5; //seconds
-unsigned long step_count = 0;
-unsigned int mult_factor = 62500; // for 1 second
-
-void setup_timer(){
-
-//  cli();//stop interrupts
-
-  //set timer1 interrupt at 1Hz
-  TCCR1A = 0;// set entire TCCR1A register to 0
-  TCCR1B = 0;// same for TCCR1B
-  TCNT1  = 0;//initialize counter value to 0
-  // set compare match register for 1hz increments
-  OCR1A = 1*mult_factor;// = (16*10^6) / (1*1024) - 1 (must be <65536)
-  // turn on CTC mode
-  TCCR1B |= (1 << WGM12);
-  // Set CS12 bit for 256-prescaler
-  TCCR1B |= (1 << CS12);  
-  // enable timer compare interrupt
-  TIMSK1 |= (1 << OCIE1A);
-
-  step_count = 0;
-  sei();//allow interrupts
-
-}//end setup
-*/
-/*
-
-void reset_timer()
-{
-  TIMSK1 |= (1 << OCIE1A);
-  step_count = 0;
-}
-
-void cancel_timer()
-{
-  TIMSK0 &= ~_BV(TOIE0);
-  TIMSK1 &= ~(1 << OCIE1A);  
-}
-*/
 void clear_serial() {
-//  step_count++;
-//  if(step_count >= compare_count) {    
     recvdOffset = 0;
-//    step_count = 0;
-//  }
 }
 
-/*
-ISR(TIMER1_COMPA_vect){//timer1 interrupt 1Hz toggles pin 13 (LED)
-//generates pulse wave of frequency 1Hz/2 = 0.5kHz (takes two cycles for full wave- toggle high then toggle low)
-//  boolean value = 0;
-  step_count++;
-  if(step_count >= compare_count) {    // 100000 - 1 second
-    recvdOffset = 0;
-    step_count = 0;
-  }
-}
-
-*/
