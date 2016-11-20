@@ -26,12 +26,16 @@ app.get('/home', function(req, res) {
 app.get('/mode/:mode', function(req, res) {
 	var mode = req.params.mode;
 
+	console.log('mode = ', mode);
 	switch(mode) {
 		case 'stop':
-			exec('pidof python', function(err, out, err) {
+			exec('pidof python', function(stderr, out, err) {
+				console.log('err = ', err);
+				console.log('out = ', out);
+				console.log('stderr = ', stderr);
 				var pid = out;
 				console.log('pid = ', pid);
-				exec('kill =9 ' + pid, function(e, o, er) {
+				exec('kill -9 ' + pid, function(e, o, er) {
 					exec('/root/mode/black.py', function(error, stdout, stderr) {
 						if (error) {
 							console.error('exec error: ', error);
@@ -48,7 +52,7 @@ app.get('/mode/:mode', function(req, res) {
 			exec('pidof python', function(err, out, err) {
 				var pid = out;
 				console.log('pid = ', pid);
-				exec('kill =9 ' + pid, function(e, o, er) {
+				exec('kill -9 ' + pid, function(e, o, er) {
 					exec('/root/mode/light-brite.py', function(error, stdout, stderr) {
 						if (error) {
 							console.error('exec error: ', error);
@@ -65,7 +69,7 @@ app.get('/mode/:mode', function(req, res) {
 			exec('pidof python', function(err, out, err) {
 				var pid = out;
 				console.log('pid = ', pid);
-				exec('kill =9 ' + pid, function(e, o, er) {
+				exec('kill -9 ' + pid, function(e, o, er) {
 					exec('/root/mode/twinkle.py', function(error, stdout, stderr) {
 						if (error) {
 							console.error('exec error: ', error);
@@ -81,7 +85,7 @@ app.get('/mode/:mode', function(req, res) {
 			exec('pidof python', function(err, out, err) {
 				var pid = out;
 				console.log('pid = ', pid);
-				exec('kill =9 ' + pid, function(e, o, er) {
+				exec('kill -9 ' + pid, function(e, o, er) {
 					exec('/root/mode/draw.py', function(error, stdout, stderr) {
 						if (error) {
 							console.error('exec error: ', error);
