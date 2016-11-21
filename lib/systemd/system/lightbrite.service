@@ -1,0 +1,11 @@
+[Unit]
+Description=Lightbrite service
+
+[Service]
+PIDFile=/root/lightbrite.pid
+ExecStart=/usr/local/bin/forever start --sourceDir=/root/lightbrite/nodejs --pidFile /root/lightbrite/nodejs/pid.file -o /root/out.log -l /root/log.log -e /root/err.log -a app.js
+ExecStop=/usr/local/bin/forever stop /root/lightbrite/nodejs/app.js
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
